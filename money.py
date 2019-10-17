@@ -73,7 +73,7 @@ class Money:
             money = str(self.amount)
             more_money = f"{money}{self.currency.digits * '0'}"
             return f"{self.currency.code} {more_money[:self.currency.digits +2]}"
-        # pass
+        
 
     def __repr__(self):
         return f"<Money {str(self)}>"
