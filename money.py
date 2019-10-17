@@ -22,12 +22,13 @@ class Currency:
         self.code = code
         self.symbol = symbol
         self.digits = digits
-        pass
+        
 
     def __str__(self):
         """
         Should return the currency code, or code with symbol in parentheses.
         """
+        return code and '(${self.symbol})'
 
         
 
@@ -53,7 +54,7 @@ class Money:
         """
         self.amount = amount
         self.currency = currency
-        # pass
+        
 
     def __str__(self):
         """
@@ -62,9 +63,16 @@ class Money:
         """
         if self.currency.symbol:
             if int == type(self.amount):
-                    return f"{self.currency.symbol}{self.amount}.{self.currency.digits * '0'}"
+                return f"{self.currency.symbol}{self.amount}.{self.currency.digits * '0'}"
             elif float == type(self.amount):
-                    return f""
+                money = str(self.amount)
+                more_money = f"{money}{self.currency.digits * '0'}"
+                return f"{self.currency.code} {more_money[:self.currency.digits +2]}"
+        
+        elif not self.currency.symbol:
+            money = str(self.amount)
+            more_money = f"{money}{self.currency.digits * '0'}"
+            return f"{self.currency.code} {more_money[:self.currency.digits +2]}"
         # pass
 
     def __repr__(self):
@@ -83,23 +91,33 @@ class Money:
         Add two money objects of the same currency. If they have different
         currencies, raise a DifferentCurrencyError.
         """
-        pass
+        if self.currency.code == other.currency.code:
+            self.amount += other.amount
+            return self
+        else:
+            raise DifferentCurrencyError('different currency')
 
     def sub(self, other):
         """
         Subtract two money objects of the same currency. If they have different
         currencies, raise a DifferentCurrencyError.
         """
-        pass
+        if self.currency.code == other.currency.code:
+            self.amount -= other.amount
+            return self
+        else:
+            raise DifferentCurrencyError('different currency')
 
     def mul(self, multiplier):
         """
         Multiply a money object by a number to get a new money object.
         """
-        pass
+        self.amount *= multiplier
+        return self
 
     def div(self, divisor):
         """
         Divide a money object by a number to get a new money object.
         """
-        pass
+        self.amount /= divisor
+        return self
